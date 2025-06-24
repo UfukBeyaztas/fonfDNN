@@ -1,0 +1,17 @@
+Package: fonfDNN
+Type: Package
+Title: Hybrid deep tensor network for function-on-function regression with mixed predictors
+Version: 1.0
+Depends: R (>= 3.5.0), fda, keras, tensorflow, fda.usc, plot3D
+Imports: goffda
+LazyLoad: yes
+ByteCompile: TRUE
+Encoding: UTF-8
+Authors@R: c(
+	person("Ufuk", "Beyaztas", email="ufukbeyaztas@gmail.com", role=c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-5208-4950")),
+	person("Gizel Bakicierler", "Sezer", role="aut", comment = c(ORCID = "0000-0002-1789-0842")),
+	person("Deniz", "Inan", role="aut", comment = c(ORCID = "0000-0002-0408-1309"))
+	)
+Maintainer: Ufuk Beyaztas <ufukbeyaztas@gmail.com>
+Description: Functions for implementing deep tensor network for function-on-function regression with mixed predictors.
+License: GPL-3

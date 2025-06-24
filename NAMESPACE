@@ -1,0 +1,18 @@
+export(
+"dgp_mixed",
+"fonf_fit",
+"fonf_fnc",
+"fonf_param_grid",
+"fonf_predict",
+"fonf_tune",
+"load_air_data"
+)
+
+
+import(fda)
+import(keras)
+import(tensorflow)
+import(fda.usc)
+import(plot3D)
+importFrom("goffda", "r_ou")
+importFrom("stats", "predict", "quantile", "rnorm", "sd")
