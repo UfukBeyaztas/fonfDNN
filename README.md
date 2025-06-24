@@ -16,3 +16,11 @@ install.packages("devtools")
 
 # Install fonfDNN from GitHub
 devtools::install_github("UfukBeyaztas/fonfDNN")
+
+## 📄 Documentation
+
+A full user manual is available with comprehensive documentation for all functions, usage examples, implementation details, and theoretical background.
+
+📘 **Manual:** [fonfDNN_1.0.pdf](fonfDNN_1.0.pdf)
+
+You can open this file directly in the repository or download it for offline access. This is the official manual for `fonfDNN` version 1.0.
