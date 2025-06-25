@@ -49,6 +49,8 @@ A full user manual is included with detailed function references, usage examples
 
 ---
 
+❓ Troubleshooting
+
 | Symptom                                                      | Likely Cause                                     | Fix                                                                                                               |
 | ------------------------------------------------------------ | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
 | `Suitable Python installation for creating a venv not found` | No real Python executable on the **PATH**        | Install Python from python.org **or** run `reticulate::install_python()`                                          |
