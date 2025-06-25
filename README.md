@@ -49,8 +49,9 @@ A full user manual is included with detailed function references, usage examples
 
 ---
 
-❓ Troubleshooting
-Symptom	Likely Cause	Fix
-Suitable Python installation for creating a venv not found	No real Python executable on the PATH	Install Python from python.org or run reticulate::install_python()
-ModuleNotFoundError: No module named 'tensorflow'	TensorFlow not yet installed in that environment	Run tensorflow::install_tensorflow()
-Keras/TensorFlow loads but the GPU is not used	CUDA/cuDNN mismatch	Re-install TensorFlow with tensorflow::install_tensorflow(version = "gpu") and follow the printed CUDA guidance
+| Symptom                                                      | Likely Cause                                     | Fix                                                                                                               |
+| ------------------------------------------------------------ | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| `Suitable Python installation for creating a venv not found` | No real Python executable on the **PATH**        | Install Python from python.org **or** run `reticulate::install_python()`                                          |
+| `ModuleNotFoundError: No module named 'tensorflow'`          | TensorFlow not yet installed in that environment | Run `tensorflow::install_tensorflow()`                                                                            |
+| Keras/TensorFlow loads but the GPU is not used               | CUDA/cuDNN mismatch                              | Re-install TensorFlow with `tensorflow::install_tensorflow(version = "gpu")` and follow the printed CUDA guidance |
+
