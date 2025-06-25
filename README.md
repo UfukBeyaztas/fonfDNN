@@ -7,46 +7,50 @@ The method blends the interpretability of **B-spline tensor products** with the 
 
 ---
 
-## ⚠️  Prerequisite: A Working Python 3 Installation
-`fonfDNN` relies on **Keras** and **TensorFlow** via the **reticulate** bridge. When the package is first loaded, it tries to create a Python virtual environment:
+## ⚠️ Prerequisite: A Working Python 3 Installation
 
-Suitable Python installation for creating a venv not found.
+`fonfDNN` calls **Keras** / **TensorFlow** through the **reticulate** bridge.  
+When the package is first loaded it tries to create a Python virtual environment; without a real Python executable you will see
+
+---
 
 
-If you see the message above (or similar “cannot open file … python.exe” warnings), R could not find a real Python executable—often because only the Microsoft-Store **stub** is present on Windows.
+*(Windows users often have only the Microsoft-Store “stub” `python.exe`, which is not sufficient.)*
 
-> **You must have a full Python 3 (≥ 3.8) installation available to R.**  
-> Any one of the following satisfies the requirement:
+> **You must make a full Python ≥ 3.8 available to R.**  
+> Either of the following options works:
 
 | Option | Command / Link | Notes |
 |--------|----------------|-------|
-| **System Python** | <https://www.python.org/downloads/> | Install, then restart R. `python3 --version` should work in a terminal. |
-| **reticulate helper** | `reticulate::install_python(version = "3.11.9")` | Downloads a self-contained Miniconda and registers it with R only—no admin rights needed. |
+| **System Python** | <https://www.python.org/downloads/> | Install and restart R; `python --version` (or `python3`) should work in a terminal. |
+| **reticulate helper** | `reticulate::install_python(version = "3.11.9")` | Downloads a self-contained Miniconda and registers it with R—no admin rights needed. |
 
-Once Python is in place, load the package and let it install TensorFlow/Keras automatically:
+---
+
+## 🔧 Installation
 
 ```r
-library(fonfDNN)
-fonfDNN::install_tensorflow()  # runs once
-
-# 1. Install devtools if needed
+# 0. (If needed) install devtools
 install.packages("devtools")
 
-# 2. Install fonfDNN from GitHub
+# 1. Install fonfDNN from GitHub
 devtools::install_github("UfukBeyaztas/fonfDNN")
 
-# 3. (First time only) Set up TensorFlow/Keras
-library(fonfDNN)
-fonfDNN::install_tensorflow()
+# 2. Install TensorFlow/Keras once in the chosen Python environment
+tensorflow::install_tensorflow()   # from the 'tensorflow' R package
 
-A full user manual is available with comprehensive documentation for all functions, usage examples, implementation details, and theoretical background.
+---
+
+📄 Documentation
+
+A full user manual is included with detailed function references, usage examples, implementation notes, and theoretical background.
 
 📘 Manual: fonfDNN_1.0.pdf — the official manual for fonfDNN v1.0.
 
+---
+
 ❓ Troubleshooting
-
-| Symptom                                                      | Likely Cause                                    | Fix                                                                      |
-| ------------------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------------------ |
-| `Suitable Python installation for creating a venv not found` | No real Python executable on the PATH           | Install Python from python.org **or** run `reticulate::install_python()` |
-| `ModuleNotFoundError: No module named 'tensorflow'`          | TensorFlow not yet installed in the environment | Run `fonfDNN::install_tensorflow()`                                      |
-
+Symptom	Likely Cause	Fix
+Suitable Python installation for creating a venv not found	No real Python executable on the PATH	Install Python from python.org or run reticulate::install_python()
+ModuleNotFoundError: No module named 'tensorflow'	TensorFlow not yet installed in that environment	Run tensorflow::install_tensorflow()
+Keras/TensorFlow loads but the GPU is not used	CUDA/cuDNN mismatch	Re-install TensorFlow with tensorflow::install_tensorflow(version = "gpu") and follow the printed CUDA guidance
