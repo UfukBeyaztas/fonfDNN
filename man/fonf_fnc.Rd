@@ -81,7 +81,7 @@ Invisibly returns a \code{list} with components:
 \item{plots}{List of closure functions; calling
              \code{plots[[p]]()} re-draws the \eqn{p}-th surface.}
 }
-\author{Ufuk Beyaztas, Gizel Bakicierler Sezer, Deniz Inan}
+\author{Ufuk Beyaztas, Gizel Bakicierler Sezer}
 \note{
 Requires the suggested packages \pkg{fda}, \pkg{keras}, and \pkg{plot3D}.
 An error is thrown if any are missing.
