@@ -53,7 +53,7 @@ whole data via \code{\link{fonf_fit}} with \code{verbose = TRUE}.
   \item{best_model}{Object of class \code{"fonf_dl"} fitted on the full data
                     with \code{best_params}.}
 }}
-\author{Ufuk Beyaztas, Gizel Bakicierler Sezer, Deniz Inan}
+\author{Ufuk Beyaztas, Gizel Bakicierler Sezer}
 \note{
 \itemize{
   \item This function is single-threaded.  For large grids consider a parallel
