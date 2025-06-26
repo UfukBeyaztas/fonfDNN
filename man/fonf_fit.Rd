@@ -2,7 +2,7 @@
 \alias{fonf_fit}
 \title{Fit a Hybrid Deep Tensor Network for Function-on-Function Regression with Mixed Predictors}
 \description{
-Trains the hybrid deep tensor network (HDTN) of \emph{Beyaztas, Bakicierler Sezer, Inan (2025)} to predict a \emph{functional response} from multiple functional and scalar covariates.
+Trains the hybrid deep tensor network (HDTN) of \emph{Beyaztas, Bakicierler Sezer (2025)} to predict a \emph{functional response} from multiple functional and scalar covariates.
 The model combines a first-layer tensor-product B-spline representation (capturing linear functional effects) with fully-connected dense layers (capturing higher-order nonlinear interactions) and supplies finite-sample, distribution-free prediction bands via conformal inference.
 }
 \usage{
@@ -129,7 +129,7 @@ Lei, J., G'Sell, M., Rinaldo, A., Tibshirani, R. and Wasserman, L. (2018).
 \emph{Distribution-Free Predictive Inference for Regression}.
 \emph{Journal of the American Statistical Association}, 113(523), 1094-1111.
 }
-\author{Ufuk Beyaztas, Gizel Bakicierler Sezer, Deniz Inan}
+\author{Ufuk Beyaztas, Gizel Bakicierler Sezer}
 \note{Requires TensorFlow/Keras (tested with TensorFlow >= 2.16).}
 \seealso{\code{\link{fonf_predict}}, \code{\link[keras]{keras_model_sequential}}}
 \examples{
