@@ -66,7 +66,7 @@ Lei, J., G'Sell, M., Rinaldo, A., Tibshirani, R. & Wasserman, L. (2018).
 Distribution-Free Predictive Inference for Regression.
 \emph{Journal of the American Statistical Association}, 113(523), 1094–1111.
 }
-\author{Ufuk Beyaztas, Gizel Bakicierler Sezer, Deniz Inan}
+\author{Ufuk Beyaztas, Gizel Bakicierler Sezer}
 \note{The feature grids supplied here must match those used at training time,
 and the length of the prediction vector must be divisible by
 \code{object$py}; otherwise an error is raised.}
