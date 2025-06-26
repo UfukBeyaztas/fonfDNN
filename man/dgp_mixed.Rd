@@ -3,7 +3,7 @@
 \title{Simulate Mixed Functional–Scalar Data for Function–on–Function Regression}
 \description{
 Generates synthetic datasets that mimic the structure analysed in
-\emph{Beyaztas, Bakicierler Sezer, Inan (2025)}: a functional response
+\emph{Beyaztas, Bakicierler Sezer (2025)}: a functional response
 observed on a dense grid, multiple functional predictors, and multiple scalar
 predictors.  Two regimes are available:
 
@@ -75,7 +75,7 @@ A named \code{list}:
 \references{
 Kokoszka, P. and Reimherr, M.~(2017). \emph{Introduction to Functional Data Analysis}. Chapman and Hall/CRC.
 }
-\author{Ufuk Beyaztas, Gizel Bakicierler Sezer, Deniz Inan}
+\author{Ufuk Beyaztas, Gizel Bakicierler Sezer}
 \note{
 Requires the suggested package \pkg{goffda} for OU noise generation.
 }
