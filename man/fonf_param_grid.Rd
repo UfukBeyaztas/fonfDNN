@@ -21,7 +21,7 @@ This function simplifies the creation of parameter grids for tuning models. Unli
 A data frame containing one row for each combination of the supplied vectors.
 }
 \author{
-Ufuk Beyaztas, Gizel Bakicierler Sezer, Deniz Inan
+Ufuk Beyaztas, Gizel Bakicierler Sezer
 }
 \note{
 This function is mainly used to build cross-product grids of model parameters when performing grid search for tuning.
