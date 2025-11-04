@@ -33,10 +33,10 @@ Loads the object \code{air_data} into the global environment. This object is a l
   \item{xscl}{A matrix of dimension \eqn{n \times 3} for scalar covariates.}
 }
 \references{
-Maranzano, M., and Algieri, C. (2024). ARPALData: An R package for retrieving and analyzing air quality and weather data from ARPA Lombardia (Italy). \emph{Environmental and Ecological Statistics}, 31(2), 187–218.
+Maranzano, M., and Algieri, C. (2024). ARPALData: An R package for retrieving and analyzing air quality and weather data from ARPA Lombardia (Italy). \emph{Environmental and Ecological Statistics}, 31(2), 187-218.
 }
 \author{
-Ufuk Beyaztas, Gizel Bakicierler Sezer
+Ufuk Beyaztas, Gizel Bakicierler Sezer, and Han Lin Shang
 }
 \note{
 This function downloads a 47 MB file from Dropbox. A stable internet connection is required. The file is cached locally but may be removed between sessions unless a permanent directory is specified.
