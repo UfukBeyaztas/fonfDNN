@@ -3,7 +3,7 @@
 \title{Simulate Mixed Functional–Scalar Data for Function–on–Function Regression}
 \description{
 Generates synthetic datasets that mimic the structure analysed in
-\emph{Beyaztas, Bakicierler Sezer (2025)}: a functional response
+\emph{Beyaztas and Bakicierler Sezer (2025)}: a functional response
 observed on a dense grid, multiple functional predictors, and multiple scalar
 predictors.  Two regimes are available:
 
@@ -44,7 +44,7 @@ Let \eqn{X_i^{(p)}(s)} denote functional predictor \eqn{p=1,\dots,P} and \eqn{\m
 +\mathcal N\!L_i(t),
 }
 
-where \eqn{P=3} “strong” functional predictors drive the linear component, \eqn{\beta_p} are pre-specified wavy B-spline surfaces (see code), and
+where \eqn{P=3} ''strong'' functional predictors drive the linear component, \eqn{\beta_p} are pre-specified wavy B-spline surfaces (see code), and
 \eqn{\gamma(t)} are smooth one-dimensional bases. If \code{model == "linear"} we set \eqn{\mathcal N\!L_i(t)\equiv 0};
 otherwise \eqn{\mathcal N\!L_i(t)} equals the \emph{sum} of five carefully designed nonlinear terms (quadratic functional interactions, sinusoidal
 transforms, scalar–functional products, etc.) rescaled so that
@@ -73,9 +73,9 @@ A named \code{list}:
             (\code{beta}), and the \code{model} flag.}
 }
 \references{
-Kokoszka, P. and Reimherr, M.~(2017). \emph{Introduction to Functional Data Analysis}. Chapman and Hall/CRC.
+Kokoszka, P. and Reimherr, M. (2017). \emph{Introduction to Functional Data Analysis}. Chapman and Hall/CRC.
 }
-\author{Ufuk Beyaztas, Gizel Bakicierler Sezer}
+\author{Ufuk Beyaztas, Gizel Bakicierler Sezer, and Han Lin Shang}
 \note{
 Requires the suggested package \pkg{goffda} for OU noise generation.
 }
