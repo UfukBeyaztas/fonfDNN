@@ -4,16 +4,15 @@
 \description{
 Given a fitted \code{\link{fonf_fit}} model, this helper recovers the
 bivariate coefficient surfaces
-\eqn{\widehat{\beta}_p(t,s)} that link functional predictor
+\eqn{\widehat{\beta}_p(s,t)} that links functional predictor
 \eqn{X^{(p)}(s)} to the functional response \eqn{Y(t)},
-evaluates them on user-supplied grids, and—optionally—renders compact,
+evaluates them on user-supplied grids, and???optionally???renders compact,
 printer-friendly 3-D perspective plots via \pkg{plot3D}.
 }
 \usage{
 fonf_fnc(model,
          y_grid      = NULL,
          x_grid      = NULL,
-         agg_fun     = mean,
          plot        = TRUE,
          grid_len    = 101,
          view_theta  = 40,
@@ -21,8 +20,7 @@ fonf_fnc(model,
          surface_col = "royalblue",
          border_col  = "black",
          shade_fac   = 0.5,
-         title_mgp   = c(2.8, 0.8, 0),
-         ...)
+         title_mgp   = c(2.8, 0.8, 0))
 }
 \arguments{
 \item{model}{Object of class \code{"fonf_dl"} returned by
@@ -33,13 +31,6 @@ fonf_fnc(model,
 \item{x_grid}{List of length \eqn{P}; element \eqn{p} is the grid
               \eqn{s_{k1},\dots,s_{kL_k}} for predictor \eqn{p}.  Defaults to a
               length-\code{grid_len} equi-spaced grid for every predictor.}
-\item{agg_fun}{Function used to collapse the first-layer tensor weights into a
-               single set of B-spline coefficients.  With the default
-               \code{mean}:
-
-               \eqn{\widehat{\beta}_p(t,s)=
-               \frac{1}{D_1}\sum_{d=1}^{D_1} w_d^{(p)}
-               \;B_y(t)\;B_x^{(p)}(s).}}
 \item{plot}{Logical; if \code{TRUE} (default) one 3-D plot is produced for
             each predictor.}
 \item{grid_len}{Length of the default equi-spaced grids when \code{y_grid} or
@@ -50,32 +41,53 @@ fonf_fnc(model,
               surfaces.}
 \item{title_mgp}{Margin settings for titles (argument passed to
                  \code{par(mgp = ...)} inside each plot).}
-\item{\dots}{Currently ignored, reserved for future extensions.}
 }
 \details{
-Let \eqn{B_y(t)} be the vector of \eqn{K_y} B-spline basis functions for
-\eqn{t} and let \eqn{B_x^{(p)}(s)} be the vector of
-\eqn{K_x^{(p)}} basis functions for \eqn{s} in predictor \eqn{p}.
-The first layer of the network stores a weight matrix
-\eqn{W^{(1)}} whose rows correspond to the spline products
-\eqn{B_y(t)\,B_x^{(p)}(s)}.  For each predictor \eqn{p} we:
+Let \eqn{\bm B_y(t)} denote the vector of \eqn{K_y} response-domain
+B-spline basis functions and let \eqn{\bm B_x^{(p)}(s)} denote the vector of
+\eqn{K_x^{(p)}} predictor-domain basis functions.  Keras stores the first
+dense-layer kernel as a \eqn{D\times D_1} matrix, so its columns correspond
+to the first-layer hidden units.  The kernel of the immediately following
+dense layer has dimension \eqn{D_1\times D_2}, or \eqn{D_1\times 1} when
+the first hidden layer is followed directly by the output unit.
 
-\enumerate{
-  \item Extract the contiguous block of \eqn{K_y K_x^{(p)}} weights.
-  \item Fold it into a \eqn{K_y \times K_x^{(p)}} matrix \eqn{C_k}.
-  \item Evaluate \eqn{\widehat{\beta}_p(t,s)=B_y(t)^{\top} C_k B_x^{(p)}(s)}
-        on the requested grids.
+For a positively homogeneous first activation, the invariant coefficient
+summary is
+\deqn{
+\bar w_{k\ell}^{(p)} = \frac{1}{D_1} \sum_{j=1}^{D_1} \|\bm A_{\cdot j}\|_2
+W_{j,(p,k,\ell)}^{(1)}.
 }
+For a linear first activation, the same calculation is performed after
+imposing the sign convention that the first nonzero entry of each
+downstream weight vector is positive.  Other first-layer activations are
+rejected because the required rescaling invariance does not hold.
 
-If \code{plot = TRUE} every surface is drawn with
-\code{\link[plot3D]{persp3D}}; otherwise the numeric matrices are returned
-silently.
+For predictor \eqn{p}, the coefficient vector is folded into a
+\eqn{K_x^{(p)}\times K_y} matrix \eqn{\bm C_p} in the same order used by
+the tensor-product design matrix.  The reported surface is then
+\deqn{
+\widehat\beta_p(s,t) = \bm B_x^{(p)}(s)^\top \bm C_p \bm B_y(t).
+}
+Accordingly, rows of each returned surface matrix correspond to values of
+\eqn{s}, and columns correspond to values of \eqn{t}.  The surface is an
+invariant summary of the linear structure entering the network at its input;
+it is not a decomposition of the fitted network into separately identified
+linear and nonlinear components.
 }
 \value{
 Invisibly returns a \code{list} with components:
-\item{beta_hat}{List of length \eqn{P}; element \eqn{p} is a
-                \code{length(y_grid) by length(x_grid[[p]])} matrix
-                containing \eqn{\widehat{\beta}_p(t,s)}.}
+\item{beta_hat}{
+List of length \eqn{P}; element \eqn{p} is a
+\code{length(x_grid[[p]])} by \code{length(y_grid)} matrix containing
+\eqn{\widehat{\beta}_p(s,t)}.  Rows correspond to predictor-domain
+locations \eqn{s}, and columns correspond to response-domain locations
+\eqn{t}.
+}
+\item{coefficients}{
+List of length \eqn{P}; element \eqn{p} is the
+\eqn{K_x^{(p)}\times K_y} coefficient matrix used to evaluate
+\eqn{\widehat{\beta}_p(s,t)}.
+}
 \item{y_grid}{Evaluation grid for \eqn{t}.}
 \item{x_grid}{Evaluation grids for \eqn{s}.}
 \item{plots}{List of closure functions; calling
