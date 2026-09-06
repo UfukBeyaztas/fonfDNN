@@ -19,8 +19,8 @@ realistic autocorrelated measurement error.
 \usage{
 dgp_mixed(n, j,
           model   = c("linear", "nonlinear"),
-          n_func  = 5L,
-          n_scl   = 3L,
+          n_func  = 5,
+          n_scl   = 3,
           seed    = NULL)
 }
 \arguments{
