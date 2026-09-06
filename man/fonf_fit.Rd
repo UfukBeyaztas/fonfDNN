@@ -23,7 +23,8 @@ fonf_fit(resp,
          l2_lambda             = 1e-4,
          cal_prop              = 0.2,
          alpha                 = 0.2,
-         verbose               = 1)
+         verbose               = 1,
+         block_coords          = NULL)
 }
 \arguments{
   \item{resp}{\eqn{n \times M} numeric matrix; row \eqn{i} stores the functional response
@@ -58,6 +59,17 @@ fonf_fit(resp,
   \item{alpha}{Mis-coverage level for conformal prediction bands
                (e.g. \code{0.2} yields \eqn{80\%} bands).}
   \item{verbose}{Passed to \code{keras}; larger values give more console output.}
+  \item{block_coords}{
+Either \code{NULL}, in which case calibration subjects are sampled uniformly
+at random, or a finite numeric \eqn{n\times q} matrix containing \eqn{q}
+spatial coordinates for each of the \eqn{n} subjects.  When coordinates are
+provided, the subjects are partitioned into spatial blocks by \eqn{k}-means
+clustering and complete blocks are assigned to the calibration set until the
+requested calibration size is reached.  Consequently, the realized
+calibration proportion may exceed \code{cal_prop}.  The blocked split is
+provided as a spatial sensitivity analysis; it does not by itself establish
+conformal validity under arbitrary spatial dependence.
+}
 }
 \details{
 Let \eqn{Y_i(t)\in L^2(\mathcal I_y)} be the response curve for subject \eqn{i},
@@ -104,14 +116,28 @@ plus the ridge penalty,
 via Adam with cosine-decay learning rate.
 
 \strong{Conformal prediction}.
-A calibration subset \eqn{C} (size \code{cal_prop * n} subjects) yields residuals
-\eqn{e_{jm}=|Y_j(t_m)-\hat Y_j(t_m)|}.
-The empirical \eqn{1-\alpha} quantile
-\eqn{q_{1-\alpha}} of \code{length(C)*M} pooled residuals provides a
-\emph{constant-width} \eqn{(1-\alpha)} band
-\eqn{\bigl[\hat Y_i(t_m)-q_{1-\alpha},\; \hat Y_i(t_m)+q_{1-\alpha}\bigr]} for
-every new subject \eqn{i} and grid point \eqn{t_m}.  Finite-sample marginal
-coverage is guaranteed (Lei, G'Sell, \emph{et al.}, 2018).
+A calibration subset \eqn{C}, consisting of \eqn{c=|C|} subjects, yields the
+absolute residuals
+\eqn{e_{jm}=|Y_j(t_m)-\hat Y_j(t_m)|},
+for \eqn{j\in C} and \eqn{m=1,\ldots,M}.  Define
+\eqn{
+k=\left\lceil(1-\alpha)(c+1)M\right\rceil.
+}
+The constant half-width \eqn{q_{1-\alpha}} is the \eqn{k}th order statistic
+of the \eqn{cM} pooled calibration residuals.  If \eqn{k>cM}, then
+\eqn{q_{1-\alpha}} is set to \code{Inf}.
+
+For a new subject and an index \eqn{\tau} drawn independently and uniformly
+from \eqn{\{1,\ldots,M\}}, the resulting constant-width band satisfies
+\deqn{
+\Pr \left\{Y_{n+1}(t_\tau) \in \left[\hat Y_{n+1}(t_\tau)-q_{1-\alpha},
+\hat Y_{n+1}(t_\tau)+q_{1-\alpha} \right] \right\} \geq 1-\alpha.
+}
+This finite-sample guarantee holds under subject-level exchangeability and a
+data-independent subject-level training--calibration split.  It is marginal
+over both the new subject and the uniformly selected response-grid location;
+it does not imply coverage of at least \eqn{1-\alpha} separately at every
+fixed grid point \eqn{t_m}.
 }
 \value{
 An object of class \code{"fonf_dl"} to be consumed by \code{\link{fonf_predict}}:
@@ -120,14 +146,12 @@ An object of class \code{"fonf_dl"} to be consumed by \code{\link{fonf_predict}}
 \item{center, scale}{Vectors used to standardise the design matrix.}
 \item{py}{Number of response grid points (\eqn{M}).}
 \item{nbasis_y, nbasis_x}{Basis dimensions actually used.}
-\item{q_hat}{Half-width \eqn{q_{1-\alpha}} of the conformal prediction band.}
-\item{alpha}{User-supplied mis-coverage level.}
+\item{sigma_t}{Estimated positive scale function evaluated over the response grid.}
+\item{q_hat}{Calibrated half-width of the constant-width marginal band.}
+\item{q_sig}{Calibrated multiplier for the varying-width marginal band.}
+\item{Q_sim}{Calibrated multiplier for the simultaneous band over the recorded response grid.}
+\item{alpha}{User-supplied miscoverage level.}
 \item{history}{\code{keras_training_history} object returned by \code{fit()}.}
-}
-\references{
-Lei, J., G'Sell, M., Rinaldo, A., Tibshirani, R. and Wasserman, L. (2018).
-\emph{Distribution-Free Predictive Inference for Regression}.
-\emph{Journal of the American Statistical Association}, 113(523), 1094-1111.
 }
 \author{Ufuk Beyaztas, Gizel Bakicierler Sezer, and Han Lin Shang}
 \note{Requires TensorFlow/Keras (tested with TensorFlow >= 2.16).}
