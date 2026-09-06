@@ -1,7 +1,7 @@
 fonf_predict <- function(object,
                          func_cov_new,
                          scalar_cov_new = NULL,
-                         interval = c("none", "conformal")) {
+                         interval = c("none", "conformal", "varying", "simultaneous")) {
 
   interval <- match.arg(interval)
   if (!inherits(object, "fonf_dl")) stop("object must be of class 'fonf_dl'")
@@ -16,7 +16,6 @@ fonf_predict <- function(object,
 
   X_scaled <- scale(X_new, center = object$center, scale = object$scale)
 
-  # --- Predict ----------------------------------------------------------------
   y_pred_vec <- as.numeric(object$model %>% predict(X_scaled))
 
   n_new <- length(y_pred_vec) / py
@@ -25,10 +24,35 @@ fonf_predict <- function(object,
   y_pred_mat <- t(matrix(y_pred_vec, nrow = py, ncol = n_new))
   colnames(y_pred_mat) <- paste0("t", seq_len(py))
 
-  if (interval == "none") return(y_pred_mat)
+  if (interval == "none") {
+    return(y_pred_mat)
+  }
 
-  q <- object$q_hat
-  list(mean = y_pred_mat,
-       lower = y_pred_mat - q,
-       upper = y_pred_mat + q)
+  half_vec <- switch(
+    interval,
+    conformal = object$q_hat,
+    varying = object$q_sig * object$sigma_t,
+    simultaneous = object$Q_sim * object$sigma_t
+  )
+
+  if (length(half_vec) == 1) {
+    half_vec <- rep(half_vec, py)
+  }
+
+  if (length(half_vec) != py) {
+    stop("The conformal half-width does not match the response-grid dimension.")
+  }
+
+  half <- matrix(
+    half_vec,
+    nrow = n_new,
+    ncol = py,
+    byrow = TRUE
+  )
+
+  list(
+    mean  = y_pred_mat,
+    lower = y_pred_mat - half,
+    upper = y_pred_mat + half
+  )
 }
