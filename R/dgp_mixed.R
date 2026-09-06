@@ -1,8 +1,8 @@
 dgp_mixed <- function(n,
                       j,
                       model   = c("linear", "nonlinear"),
-                      n_func  = 5L,
-                      n_scl   = 3L,
+                      n_func  = 5,
+                      n_scl   = 3,
                       seed    = NULL) {
 
   model <- match.arg(model)
