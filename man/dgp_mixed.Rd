@@ -72,9 +72,6 @@ A named \code{list}:
 \item{meta}{List containing grids \code{sx}, \code{sy}, true beta surfaces
             (\code{beta}), and the \code{model} flag.}
 }
-\references{
-Kokoszka, P. and Reimherr, M. (2017). \emph{Introduction to Functional Data Analysis}. Chapman and Hall/CRC.
-}
 \author{Ufuk Beyaztas, Gizel Bakicierler Sezer, and Han Lin Shang}
 \note{
 Requires the suggested package \pkg{goffda} for OU noise generation.
